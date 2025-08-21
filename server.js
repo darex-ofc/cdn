@@ -20,7 +20,7 @@ const fileStore = {
       console.log('Initializing file store from GitHub...');
       const { data } = await octokit.rest.repos.getContent({
         owner: process.env.GITHUB_OWNER,
-        repo: 'cdn-mrfrank',
+        repo: 'db',
         path: '',
         ref: 'main'
       });
@@ -86,7 +86,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     // Upload to GitHub
     const { data } = await octokit.rest.repos.createOrUpdateFileContents({
       owner: process.env.GITHUB_OWNER,
-      repo: 'cdn-mrfrank',
+      repo: 'db',
       path: filePath,
       message: `Upload ${finalFilename}`,
       content: fileContent,
@@ -128,7 +128,7 @@ app.get('/admin/files', async (req, res) => {
       try {
         const commitData = await octokit.rest.repos.listCommits({
           owner: process.env.GITHUB_OWNER,
-          repo: 'cdn-mrfrank',
+          repo: 'db',
           path: path,
           per_page: 1
         });
@@ -167,7 +167,7 @@ app.delete('/admin/files/:path', async (req, res) => {
 
     await octokit.rest.repos.deleteFile({
       owner: process.env.GITHUB_OWNER,
-      repo: 'cdn-mrfrank',
+      repo: 'db',
       path: filePath,
       message: `Deleted ${filePath}`,
       sha: fileInfo.sha,
@@ -196,7 +196,7 @@ app.get('/*', async (req, res) => {
     try {
       const { data } = await octokit.rest.repos.getContent({
         owner: process.env.GITHUB_OWNER,
-        repo: 'cdn-mrfrank',
+        repo: 'db',
         path: requestPath,
         ref: 'main'
       });
@@ -248,7 +248,7 @@ async function pipeFromGitHub(githubUrl, res) {
 app.get('/api/status', (req, res) => {
   res.json({ 
     status: 'active',
-    repo: 'cdn-mrfrank',
+    repo: 'db',
     owner: process.env.GITHUB_OWNER,
     filesInMemory: fileStore._map.size,
     cdnDomain: process.env.CDN_DOMAIN
@@ -283,6 +283,6 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`CDN Domain: ${process.env.CDN_DOMAIN}`);
-  console.log(`GitHub Repo: cdn-mrfrank`);
+  console.log(`GitHub Repo: db`);
   console.log(`Admin UI: http://localhost:${PORT}/admin.html`);
 });
