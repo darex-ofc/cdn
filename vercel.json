@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "*.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/upload",
+      "dest": "/index.js",
+      "methods": ["POST"]
+    },
+    {
+      "src": "/admin/files",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    },
+    {
+      "src": "/admin/files/(.*)",
+      "dest": "/index.js",
+      "methods": ["DELETE"]
+    },
+    {
+      "src": "/api/status",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    }
+  ],
+  "env": {
+    "GITHUB_TOKEN": "@github_token",
+    "GITHUB_OWNER": "@github_owner",
+    "CDN_DOMAIN": "@cdn_domain"
+  }
+}
